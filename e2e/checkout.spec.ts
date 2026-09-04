@@ -25,7 +25,12 @@ test.describe("Checkout flow (sandbox mode)", () => {
   });
 
   test("add to cart → cart shows item count", async ({ page }) => {
-    // Click the first "Add to cart" button available
+    // Navigate to the first product's detail page
+    const productCard = page.locator('[data-testid="product-card"], article, .product-card').first();
+    await expect(productCard).toBeVisible({ timeout: 10000 });
+    await productCard.click();
+
+    // Click the "Add to cart" button
     const addBtn = page.getByRole("button", { name: /add to cart/i }).first();
     await expect(addBtn).toBeVisible({ timeout: 10000 });
     await addBtn.click();
@@ -38,10 +43,14 @@ test.describe("Checkout flow (sandbox mode)", () => {
   });
 
   test("checkout page renders with all required fields", async ({ page }) => {
-    // Navigate directly to checkout (requires at least one cart item in session,
-    // so we add one first)
+    // Navigate to first product and add to cart so checkout has items
+    const productCard = page.locator('[data-testid="product-card"], article, .product-card').first();
+    await expect(productCard).toBeVisible({ timeout: 10000 });
+    await productCard.click();
+
     const addBtn = page.getByRole("button", { name: /add to cart/i }).first();
-    await addBtn.click({ timeout: 10000 });
+    await expect(addBtn).toBeVisible({ timeout: 10000 });
+    await addBtn.click();
 
     // Navigate to checkout
     await page.goto(`${BASE_URL}/checkout`);

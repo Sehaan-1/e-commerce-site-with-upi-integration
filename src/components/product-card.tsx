@@ -6,7 +6,11 @@ import { formatPaise } from "@/lib/money";
 export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
   const soldOut = product.stock <= 0;
   return (
-    <Link href={`/products/${product.slug}`} className="card product-card-hover group flex flex-col overflow-hidden">
+    <Link
+      href={`/products/${product.slug}`}
+      data-testid="product-card"
+      className="card product-card product-card-hover group flex flex-col overflow-hidden"
+    >
       <div className="relative aspect-square w-full overflow-hidden bg-sand-100">
         <Image
           src={product.imageUrl || "/products/placeholder.svg"}

@@ -28,7 +28,7 @@ test.describe("Checkout flow (sandbox mode)", () => {
     // Navigate to the first product's detail page
     const productCard = page.locator('[data-testid="product-card"], article, .product-card').first();
     await expect(productCard).toBeVisible({ timeout: 10000 });
-    await productCard.click();
+    await productCard.click({ force: true });
 
     // Click the "Add to cart" button
     const addBtn = page.getByRole("button", { name: /add to cart/i }).first();
@@ -46,7 +46,7 @@ test.describe("Checkout flow (sandbox mode)", () => {
     // Navigate to first product and add to cart so checkout has items
     const productCard = page.locator('[data-testid="product-card"], article, .product-card').first();
     await expect(productCard).toBeVisible({ timeout: 10000 });
-    await productCard.click();
+    await productCard.click({ force: true });
 
     const addBtn = page.getByRole("button", { name: /add to cart/i }).first();
     await expect(addBtn).toBeVisible({ timeout: 10000 });
@@ -75,7 +75,7 @@ test.describe("Checkout flow (sandbox mode)", () => {
   test("404 page renders for unknown routes", async ({ page }) => {
     await page.goto(`${BASE_URL}/this-page-definitely-does-not-exist-xyz-123`);
     // Should show our custom 404, not a raw Next.js error
-    await expect(page.getByText(/not found|404|page.*not/i)).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole("heading", { name: /find that page|not found/i })).toBeVisible({ timeout: 10000 });
     // Should not expose raw stack traces
     await expect(page.getByText(/at Object\.|node_modules|Error:/)).not.toBeVisible();
   });

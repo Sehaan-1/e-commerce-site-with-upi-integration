@@ -11,7 +11,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
       data-testid="product-card"
       className="card product-card product-card-hover group flex flex-col overflow-hidden"
     >
-      <div className="relative aspect-square w-full overflow-hidden bg-sand-100">
+      <div className="relative aspect-square w-full overflow-hidden bg-sand-100 pointer-events-none">
         <Image
           src={product.imageUrl || "/products/placeholder.svg"}
           alt={product.name}

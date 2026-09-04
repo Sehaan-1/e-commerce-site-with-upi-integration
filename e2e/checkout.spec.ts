@@ -25,10 +25,8 @@ test.describe("Checkout flow (sandbox mode)", () => {
   });
 
   test("add to cart → cart shows item count", async ({ page }) => {
-    // Navigate to the first product's detail page
-    const productCard = page.locator('[data-testid="product-card"], article, .product-card').first();
-    await expect(productCard).toBeVisible({ timeout: 10000 });
-    await productCard.click({ force: true });
+    // Navigate directly to the seeded product's detail page
+    await page.goto(`${BASE_URL}/products/brass-diya-set-of-two`);
 
     // Click the "Add to cart" button
     const addBtn = page.getByRole("button", { name: /add to cart/i }).first();
@@ -43,10 +41,8 @@ test.describe("Checkout flow (sandbox mode)", () => {
   });
 
   test("checkout page renders with all required fields", async ({ page }) => {
-    // Navigate to first product and add to cart so checkout has items
-    const productCard = page.locator('[data-testid="product-card"], article, .product-card').first();
-    await expect(productCard).toBeVisible({ timeout: 10000 });
-    await productCard.click({ force: true });
+    // Navigate to seeded product and add to cart so checkout has items
+    await page.goto(`${BASE_URL}/products/brass-diya-set-of-two`);
 
     const addBtn = page.getByRole("button", { name: /add to cart/i }).first();
     await expect(addBtn).toBeVisible({ timeout: 10000 });

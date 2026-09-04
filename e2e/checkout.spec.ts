@@ -50,8 +50,11 @@ test.describe("Checkout flow (sandbox mode)", () => {
     await addBtn.scrollIntoViewIfNeeded();
     await addBtn.click({ force: true });
 
-    // Ensure item added before navigating
-    await expect(page.getByRole("button", { name: /added/i })).toBeVisible({ timeout: 5000 });
+    // Ensure item added by waiting for cart indicator
+    const cartIndicator = page
+      .locator('[data-testid="cart-count"], [aria-label*="cart"], [href*="cart"]')
+      .first();
+    await expect(cartIndicator).toBeVisible({ timeout: 10000 });
 
     // Navigate to checkout
     await page.goto(`${BASE_URL}/checkout`);

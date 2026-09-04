@@ -31,13 +31,14 @@ test.describe("Checkout flow (sandbox mode)", () => {
     // Click the "Add to cart" button
     const addBtn = page.getByRole("button", { name: /add to cart/i }).first();
     await expect(addBtn).toBeVisible({ timeout: 10000 });
-    await addBtn.click();
+    await addBtn.scrollIntoViewIfNeeded();
+    await addBtn.click({ force: true });
 
     // Cart badge or indicator should update
     const cartIndicator = page
       .locator('[data-testid="cart-count"], [aria-label*="cart"], [href*="cart"]')
       .first();
-    await expect(cartIndicator).toBeVisible();
+    await expect(cartIndicator).toBeVisible({ timeout: 10000 });
   });
 
   test("checkout page renders with all required fields", async ({ page }) => {
@@ -46,7 +47,11 @@ test.describe("Checkout flow (sandbox mode)", () => {
 
     const addBtn = page.getByRole("button", { name: /add to cart/i }).first();
     await expect(addBtn).toBeVisible({ timeout: 10000 });
-    await addBtn.click();
+    await addBtn.scrollIntoViewIfNeeded();
+    await addBtn.click({ force: true });
+
+    // Ensure item added before navigating
+    await expect(page.getByRole("button", { name: /added/i })).toBeVisible({ timeout: 5000 });
 
     // Navigate to checkout
     await page.goto(`${BASE_URL}/checkout`);

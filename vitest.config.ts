@@ -3,8 +3,8 @@ import path from "path";
 
 export default defineConfig({
   test: {
-    // Use jsdom to emulate a browser environment (needed for React Testing Library)
-    environment: "jsdom",
+    // Use node environment for server/lib unit tests
+    environment: "node",
 
     // Auto-import jest-dom matchers in every test file
     setupFiles: ["./src/test/setup.ts"],

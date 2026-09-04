@@ -31,14 +31,12 @@ test.describe("Checkout flow (sandbox mode)", () => {
     // Click the "Add to cart" button
     const addBtn = page.getByRole("button", { name: /add to cart/i }).first();
     await expect(addBtn).toBeVisible({ timeout: 10000 });
+    await expect(addBtn).toBeEnabled({ timeout: 10000 });
     await addBtn.scrollIntoViewIfNeeded();
-    await addBtn.click({ force: true });
+    await addBtn.click();
 
-    // Cart badge or indicator should update
-    const cartIndicator = page
-      .locator('[data-testid="cart-count"], [aria-label*="cart"], [href*="cart"]')
-      .first();
-    await expect(cartIndicator).toBeVisible({ timeout: 10000 });
+    // Cart badge should update after local cart state is written.
+    await expect(page.getByRole("link", { name: /cart,\s*1 item/i })).toBeVisible({ timeout: 10000 });
   });
 
   test("checkout page renders with all required fields", async ({ page }) => {
@@ -47,14 +45,12 @@ test.describe("Checkout flow (sandbox mode)", () => {
 
     const addBtn = page.getByRole("button", { name: /add to cart/i }).first();
     await expect(addBtn).toBeVisible({ timeout: 10000 });
+    await expect(addBtn).toBeEnabled({ timeout: 10000 });
     await addBtn.scrollIntoViewIfNeeded();
-    await addBtn.click({ force: true });
+    await addBtn.click();
 
-    // Ensure item added by waiting for cart indicator
-    const cartIndicator = page
-      .locator('[data-testid="cart-count"], [aria-label*="cart"], [href*="cart"]')
-      .first();
-    await expect(cartIndicator).toBeVisible({ timeout: 10000 });
+    // Ensure item added by waiting for the cart badge count, not just the cart link.
+    await expect(page.getByRole("link", { name: /cart,\s*1 item/i })).toBeVisible({ timeout: 10000 });
 
     // Navigate to checkout
     await page.goto(`${BASE_URL}/checkout`);
@@ -65,7 +61,7 @@ test.describe("Checkout flow (sandbox mode)", () => {
     // Verify key fields exist
     await expect(page.getByLabel(/name/i)).toBeVisible();
     await expect(page.getByLabel(/email/i)).toBeVisible();
-    await expect(page.getByLabel(/phone/i)).toBeVisible();
+    await expect(page.getByLabel(/mobile number/i)).toBeVisible();
   });
 
   test("order tracking page loads for a valid order number format", async ({ page }) => {

@@ -6,7 +6,7 @@ import type { Product } from "@/db/schema";
 import { useCart } from "./cart-context";
 
 export function AddToCartButton({ product }: { product: Product }) {
-  const { add, lines } = useCart();
+  const { add, lines, ready } = useCart();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const inCart = lines.find((l) => l.productId === product.id)?.quantity ?? 0;
@@ -14,6 +14,8 @@ export function AddToCartButton({ product }: { product: Product }) {
   const soldOut = product.stock <= 0;
 
   function handleAdd() {
+    if (!ready || remaining === 0) return;
+
     add(
       {
         productId: product.id,
@@ -40,7 +42,7 @@ export function AddToCartButton({ product }: { product: Product }) {
         <span className="w-8 text-center font-semibold" aria-live="polite">{qty}</span>
         <button type="button" aria-label="Increase quantity" className="h-full w-11 text-lg" onClick={() => setQty((q) => Math.min(remaining || 1, q + 1))}>+</button>
       </div>
-      <button type="button" onClick={handleAdd} disabled={remaining === 0} className="btn-primary h-12 flex-1 sm:flex-none sm:px-8">
+      <button type="button" onClick={handleAdd} disabled={!ready || remaining === 0} className="btn-primary h-12 flex-1 sm:flex-none sm:px-8">
         {added ? "Added ✓" : remaining === 0 ? "Max in cart" : "Add to cart"}
       </button>
       {inCart > 0 && (

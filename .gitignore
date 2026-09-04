@@ -1,0 +1,73 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Next.js build and cache output
+.next/
+out/
+build/
+dist/
+.turbo/
+
+# Environment files — NEVER commit secrets
+.env
+.env*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+
+# Drizzle Kit snapshot caches (keep SQL migrations in git, not snapshots)
+drizzle/meta/
+
+# Testing and coverage artifacts
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+
+# TypeScript cache and generated types
+*.tsbuildinfo
+next-env.d.ts
+
+# Runtime logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS artifacts
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE and editor settings
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# Local temp and cache files
+tmp/
+temp/
+*.tmp
+.cache/
+.vercel
+
+# Security certificates and keys
+*.pem
+*.key
+*.cert
+*.crt

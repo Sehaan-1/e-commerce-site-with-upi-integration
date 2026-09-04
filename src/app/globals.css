@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Brand palette ── */
+  --color-sand-50: #faf7f2;
+  --color-sand-100: #f3ede3;
+  --color-sand-200: #e7dccb;
+  --color-sand-300: #d6c5aa;
+  --color-ink-900: #1f1b16;
+  --color-ink-700: #4a4038;
+  --color-ink-500: #7a6c5f;
+  --color-saffron-500: #d97a2b;
+  --color-saffron-600: #bf6620;
+
+  /* ── Typography — Inter via next/font ── */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* ── Easing curves ── */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Transitions ── */
+  --transition-base: 150ms var(--ease-smooth);
+  --transition-bounce: 300ms var(--ease-spring);
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-sans);
+}
+
+body {
+  background-color: var(--color-sand-50);
+  color: var(--color-ink-900);
+  /* Subtle texture layer — remove if performance-sensitive */
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231f1b16' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ── Skip link (accessibility) ──────────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+.focus\:not-sr-only:focus {
+  position: fixed;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* ── Component classes ─────────────────────────────────────────────────────── */
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 px-5 py-3 text-sm font-semibold text-white transition-all duration-150 hover:bg-ink-700 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-saffron-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-full border border-ink-900/15 bg-white px-5 py-3 text-sm font-semibold text-ink-900 transition-all duration-150 hover:border-ink-900/40 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-saffron-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.input {
+  @apply w-full rounded-xl border border-ink-900/15 bg-white px-4 py-3 text-base text-ink-900 placeholder:text-ink-500/70 transition-colors duration-150 focus:border-ink-900 focus:outline-none focus:ring-2 focus:ring-saffron-500/40;
+}
+
+.label {
+  @apply mb-1.5 block text-sm font-medium text-ink-700;
+}
+
+.card {
+  @apply rounded-2xl border border-ink-900/10 bg-white transition-shadow duration-200 hover:shadow-md;
+}
+
+/* ── Micro-animations ────────────────────────────────────────────────────────
+   Applied via class names directly in components where needed.
+   These utilities give life to interactive elements.
+────────────────────────────────────────────────────────────────────────────── */
+
+/* Product card lift on hover */
+.product-card-hover {
+  transition: transform 200ms var(--ease-smooth), box-shadow 200ms var(--ease-smooth);
+}
+.product-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -6px rgb(31 27 22 / 0.12);
+}
+
+/* Cart badge bounce */
+@keyframes cart-bounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.4); }
+  60%  { transform: scale(0.9); }
+  80%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+.cart-badge-bounce {
+  animation: cart-bounce 400ms var(--ease-spring);
+}
+
+/* Fade-in for page-level content */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 400ms var(--ease-smooth) both;
+}
+
+/* Shimmer loading skeleton */
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to   { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--color-sand-100) 25%, var(--color-sand-200) 50%, var(--color-sand-100) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 0.5rem;
+}
